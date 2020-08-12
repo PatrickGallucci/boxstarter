@@ -1,57 +1,97 @@
 <#
 .SYNOPSIS
-  BoxStarter script to configure Windows 10 Pro on SurfaceBook2
+  BoxStarter script to configure Windows 10
 
 .DESCRIPTION
   Install BoxStarter:
-  Set-ExecutionPolicy Unrestricted
-  . { Invoke-WebRequest -useb http://boxstarter.org/bootstrapper.ps1 } | Invoke-Expression; get-boxstarter -Force
-
-  Run by calling the following from an **elevated** command-prompt. 
-  Remove -DisableReboots parameter to allow the script to reboot as required.
-  Install-BoxstarterPackage -PackageName https://raw.githubusercontent.com/holgerimbery/boxstarter/master/SurfaceBook/boxstarter.ps1 -DisableReboots
 
 .NOTES
-  Author : Holger Imbery
-  Created: 2020-07-24
+  Author : Patrick Gallucci
+  Created: 2020-08-12
 #>
 
-#Temporarily disable UAC
-Disable-UAC
+# Boxstarter Options
+$Boxstarter.RebootOk=$true # Allow reboots?
+$Boxstarter.NoPassword=$false # Is this a machine with no login password?
+$Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
 
+# Boxstarter (not Chocolatey) commands
+Update-ExecutionPolicy Unrestricted
+Disable-InternetExplorerESC  #Turns off IE Enhanced Security Configuration that is on by default on Server OS versions
+Disable-UAC  # until this is over
+Disable-MicrosoftUpdate # until this is over
 
 #Trust PSGallery
 Get-PackageProvider -Name NuGet -ForceBootstrap
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
-
 #Install PowerShell Get
 Install-Module -Name PowerShellGet -force
 
-
-#Powershell Core
-cinst powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1"' -y
-
-
-#Windows Terminal
-cinst microsoft-windows-terminal -y
-
+choco feature enable allowInsecureConfirmation
+mkdir c:\temp -Confirm:0 -ErrorAction Ignore
+Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
+Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
 
 #Configure Windows: Explorer Options
-Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar
-#Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowHiddenFilesFoldersDrives -EnableShowFullPathInTitleBar
-
-
-#Configure Windows: Taskbar
-#Set-TaskbarOptions -Size Small -Dock Top -Combine Full -AlwaysShowIconsOn
-
+Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowHiddenFilesFoldersDrives -EnableShowFullPathInTitleBar
 
 #Reset Cache Location
 choco config set cacheLocation "$env:temp\chocolatey"
 
+  # disabled bing search in start menu
+  Write-Output "Disabling Bing Search in start menu"
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
+  If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search")) {
+      New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Force | Out-Null
+  }
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
 
-#Disable SMBv1
-Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol
+##Disable GameBarTips
+Disable-GameBarTips
+
+
+  # Hide taskbar search box
+  Write-Output "Hiding task bar search box"
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+
+  # Hide Task View
+  Write-Output "Hiding task view"
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+
+  # Hide task Bar People icon
+  Write-Output "Hiding task bar people icon"
+  If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) {
+      New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" | Out-Null
+  }
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+
+
+
+# Disable Cortana
+Function DisableCortana {
+	Write-Output "Disabling Cortana..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Personalization\Settings")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
+	If (!(Test-Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore")) {
+		New-Item -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Experience\AllowCortana" -Name "Value" -Type DWord -Value 0
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWord -Value 0
+	If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization")) {
+		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization" -Type DWord -Value 0
+}
+DisableCortana
 
 
 # Disable Application suggestions and automatic installation
@@ -89,73 +129,50 @@ Function DisableAppSuggestions {
 }
 DisableAppSuggestions
 
-
 ##Uninstall Bing Finance, News, Sports & Weather
 Get-AppxPackage Microsoft.BingFinance | Remove-AppxPackage
-#Get-AppxPackage Microsoft.BingNews | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingNews | Remove-AppxPackage
 Get-AppxPackage Microsoft.BingSports | Remove-AppxPackage
-#Get-AppxPackage Microsoft.BingWeather | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingWeather | Remove-AppxPackage
 
 
 #Uninstall Unrequired Windows 10 Store Apps
 Get-AppxPackage *BubbleWitch* | Remove-AppxPackage
 Get-AppxPackage king.com.CandyCrush* | Remove-AppxPackage
+Get-AppxPackage Microsoft.SkypeApp | Remove-AppxPackage
 Get-AppxPackage *Solitaire* | Remove-AppxPackage
-Get-AppxPackage Microsoft.ZuneMusic | Remove-AppxPackage
-Get-AppxPackage Microsoft.ZuneVideo | Remove-AppxPackage
 Get-AppxPackage *king* | Remove-AppxPackage
 Get-AppxPackage *xing* | Remove-AppxPackage
-#Get-AppxPackage Microsoft.WindowsAlarms | Remove-AppxPackage
+Get-AppxPackage *spotify* | Remove-AppxPackage
+Get-AppxPackage *YourPhone* | Remove-AppxPackage
+Get-AppxPackage Microsoft.WindowsAlarms | Remove-AppxPackage
 
-
-#Install Fonts: SourceCodePro, cascadiacodepl
-cinst sourcecodepro -y
-cinst cascadiacodepl -y
-
+choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 
 #
 # visualstudio code and visualstudio enterprise
 
 #Install Visual Studio Enterprise
-cinst visualstudio2019enterprise -y
-refreshenv
+#cinst visualstudio2019enterprise -y
+#refreshenv
 
 #Install Visual Studio Code
-cinst vscode -y
-refreshenv
+#cinst vscode -y
+#refreshenv
 
 #Install Visual Studio Code Extensions
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-refreshenv
-#code --force --install-extension ms-vscode-remote.remote-wsl
-code --force --install-extension sohamkamani.code-eol
-#code --force --install-extension ms-vscode.cpptools
-code --force --install-extension ms-vscode.powershell
+#$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+#refreshenv
+#code --force --install-extension ms-vscode.powershell
 
 
 #install node.js lts, python3
-cinst nodejs-lts
-cinst python
+#cinst nodejs-lts
+#cinst python
 
+#Install Github Desktop
+cinst github-desktop -y
 
-#Install Git
-cinst git --params '"/GitAndUnixToolsOnPath /WindowsTerminal /SChannel"' -y
-refreshenv
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-refreshenv
-git config --global credential.helper wincred
-git config --global --bool pull.rebase true
-
-
-# install gsudo
-cinst gsudo -y
-refreshenv`
-
-#Installing posh-git and oh-my-posh
-Install-Module -Name posh-git
-Update-Module -Name posh-git
-Install-Module -Name oh-my-posh
-Update-Module -Name oh-my-posh
 
 #Install NuGet Package Explorer
 cinst nugetpackageexplorer -y
@@ -163,36 +180,18 @@ if (test-path (Join-Path ([Environment]::GetFolderPath("Desktop")) "NugetPackage
     Move-Item (Join-Path ([Environment]::GetFolderPath("Desktop")) "NugetPackageExplorer.exe.lnk") (Join-Path ([Environment]::GetEnvironmentVariable("AppData")) "Microsoft\Windows\Start Menu\Programs\NugetPackageExplorer.lnk")
 }
 
-#Install Microsoft Edge
-cinst microsoft-edge
-
 
 #Install chocolatey GUI
 cinst chocolateygui -y
 
-
-#install WinSCP
-cinst winscp -y 
-
-
-#Install Mouse without Borders
-cinst mousewithoutborders -y
-
-
-#Install Powertoys
-cinst powertoys -y
-
-
 Write-Output "Complete"
 
-#Restore UAC
-Enable-UAC
 
 #Check for / install Windows Updates
 Enable-MicrosoftUpdate
 Install-WindowsUpdate -acceptEula
 
-$computername = "SurfaceBook2"
+$computername = "Luke-SurfBook"
 if ($env:computername -ne $computername) {
 	Rename-Computer -NewName $computername
 }
