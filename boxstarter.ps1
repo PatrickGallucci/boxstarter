@@ -33,6 +33,9 @@ mkdir c:\temp -Confirm:0 -ErrorAction Ignore
 Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
 Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
 
+$Boxstarter.Log="C:\temp\boxstarter.log"
+$Boxstarter.SuppressLogging=$false
+
 #Configure Windows: Explorer Options
 Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowHiddenFilesFoldersDrives -EnableShowFullPathInTitleBar
 
@@ -65,8 +68,6 @@ Disable-GameBarTips
       New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" | Out-Null
   }
   Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
-
-
 
 # Disable Cortana
 Function DisableCortana {
@@ -148,30 +149,30 @@ Get-AppxPackage *YourPhone* | Remove-AppxPackage
 Get-AppxPackage Microsoft.WindowsAlarms | Remove-AppxPackage
 
 choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-
-#
-# visualstudio code and visualstudio enterprise
-
-#Install Visual Studio Enterprise
-#cinst visualstudio2019enterprise -y
-#refreshenv
-
-#Install Visual Studio Code
-#cinst vscode -y
-#refreshenv
-
-#Install Visual Studio Code Extensions
-#$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-#refreshenv
-#code --force --install-extension ms-vscode.powershell
-
-
-#install node.js lts, python3
-#cinst nodejs-lts
-#cinst python
-
-#Install Github Desktop
-cinst github-desktop -y
+choco install visualstudio2019community --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+refreshenv
+choco install visualstudio2019-workload-managedgame --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+refreshenv
+choco install vscode -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+refreshenv
+choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install office365proplus -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
+choco install python
+choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install itunes -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install microsoft-teams.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install putty.portable -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install atom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity-docs -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity-standard-assets -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity-hub -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install 4k-video-downloader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install camtasia -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install snagit -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 
 
 #Install NuGet Package Explorer
@@ -179,7 +180,6 @@ cinst nugetpackageexplorer -y
 if (test-path (Join-Path ([Environment]::GetFolderPath("Desktop")) "NugetPackageExplorer.exe.lnk")) {
     Move-Item (Join-Path ([Environment]::GetFolderPath("Desktop")) "NugetPackageExplorer.exe.lnk") (Join-Path ([Environment]::GetEnvironmentVariable("AppData")) "Microsoft\Windows\Start Menu\Programs\NugetPackageExplorer.lnk")
 }
-
 
 #Install chocolatey GUI
 cinst chocolateygui -y
@@ -189,7 +189,7 @@ Write-Output "Complete"
 
 #Check for / install Windows Updates
 Enable-MicrosoftUpdate
-Install-WindowsUpdate -acceptEula
+Install-WindowsUpdate -acceptEula -GetUpdatesFromMS
 
 $computername = "Luke-SurfBook"
 if ($env:computername -ne $computername) {
