@@ -158,7 +158,7 @@ refreshenv
 choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install office365proplus -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
-choco install python
+choco install python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install itunes -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install microsoft-teams.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
@@ -173,6 +173,7 @@ choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache
 choco install 4k-video-downloader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install camtasia -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install snagit -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install steam -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 
 
 #Install NuGet Package Explorer
