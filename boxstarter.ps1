@@ -192,7 +192,7 @@ Write-Output "Complete"
 Enable-MicrosoftUpdate
 Install-WindowsUpdate -acceptEula -GetUpdatesFromMS
 
-$computername = "Luke-SurfBook"
-if ($env:computername -ne $computername) {
-	Rename-Computer -NewName $computername
-}
+#$computername = "SurfBook"
+#if ($env:computername -ne $computername) {
+#	Rename-Computer -NewName $computername
+#}
