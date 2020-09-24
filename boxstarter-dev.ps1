@@ -14,8 +14,6 @@
 $Boxstarter.RebootOk=$true # Allow reboots?
 $Boxstarter.NoPassword=$false # Is this a machine with no login password?
 $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
-\$Boxstarter.Log="C:\temp\boxstarter.log"
-$Boxstarter.SuppressLogging=$false
 
 # Boxstarter (not Chocolatey) commands
 Update-ExecutionPolicy Unrestricted
@@ -36,7 +34,8 @@ mkdir c:\temp -Confirm:0 -ErrorAction Ignore
 Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
 Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
 Set-TimeZone -Name "Central Standard Time" -Verbose
-
+$Boxstarter.Log="C:\temp\boxstarter.log"
+$Boxstarter.SuppressLogging=$false
 
 
 #Configure Windows: Explorer Options
