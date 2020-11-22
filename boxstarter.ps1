@@ -41,7 +41,6 @@ Disable-MicrosoftUpdate # until this is over
 Set-ExplorerOptions -showHidenFilesFoldersDrives -showFileExtensions
 Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar
 Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
-Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
 
 #Trust PSGallery
 Write-Output "Setting PSGallery & NuGet"
