@@ -12,3 +12,5 @@ Paste this command:
     cinst boxstarter
 
 http://boxstarter.org/package/nr/url?https://raw.githubusercontent.com/PatrickGallucci/boxstarter/master/boxstarter.ps1
+http://boxstarter.org/package/nr/url?https://raw.githubusercontent.com/PatrickGallucci/boxstarter/master/boxstarter-dev.ps1
+

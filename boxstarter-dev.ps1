@@ -31,11 +31,13 @@ Install-Module -Name PowerShellGet -force
 
 choco feature enable allowInsecureConfirmation
 mkdir c:\temp -Confirm:0 -ErrorAction Ignore
-Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
-Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
 Set-TimeZone -Name "Central Standard Time" -Verbose
 $Boxstarter.Log="C:\temp\boxstarter.log"
 $Boxstarter.SuppressLogging=$false
+
+#Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
+Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
+
 
 
 #Configure Windows: Explorer Options
