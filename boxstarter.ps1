@@ -53,9 +53,6 @@ choco feature enable -n=allowEmptyChecksums
 choco feature enable -n=allowGlobalConfirmation
 cinst chocolatey-windowsupdate.extension
 
-#Configure Windows
-
-
 # disabled bing search in start menu
 Write-Output "Disabling Bing Search in start menu"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0

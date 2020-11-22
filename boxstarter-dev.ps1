@@ -11,40 +11,47 @@
 #>
 
 # Boxstarter Options
+Write-Output "Setting Boxstarter variables"
+mkdir c:\temp -Confirm:0 -ErrorAction Ignore
+$Boxstarter.Log="C:\temp\boxstarter.log"
+$Boxstarter.SuppressLogging=$false
 $Boxstarter.RebootOk=$true # Allow reboots?
 $Boxstarter.NoPassword=$false # Is this a machine with no login password?
 $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
 
+# Remote access / support
+Enable-RemoteDesktop
+
+# Install Windows Update and reboot
+Install-WindowsUpdate -acceptEula
+if (Test-PendingReboot) { Invoke-Reboot }
+
+# Power Options - disable hibernation and disable monitor standby
+Write-Host "Configuring power options..."
+powercfg -change -monitor-timeout-ac 0
+powercfg -change -standby-timeout-ac 0
+powercfg -h off
+
 # Boxstarter (not Chocolatey) commands
+Write-Output "Boxstarter commands"
 Update-ExecutionPolicy Unrestricted
 Disable-InternetExplorerESC  #Turns off IE Enhanced Security Configuration that is on by default on Server OS versions
 Disable-UAC  # until this is over
 Disable-MicrosoftUpdate # until this is over
-refreshenv
+Set-ExplorerOptions -showHidenFilesFoldersDrives -showFileExtensions
+Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar
+Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
 
 #Trust PSGallery
+Write-Output "Setting PSGallery & NuGet"
 Get-PackageProvider -Name NuGet -ForceBootstrap
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-
-#Install PowerShell Get
 Install-Module -Name PowerShellGet -force
 
-choco feature enable allowInsecureConfirmation
-mkdir c:\temp -Confirm:0 -ErrorAction Ignore
-Set-TimeZone -Name "Central Standard Time" -Verbose
-$Boxstarter.Log="C:\temp\boxstarter.log"
-$Boxstarter.SuppressLogging=$false
-
-#Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
-Set-TaskbarOptions -Dock Bottom -Combine Always -AlwaysShowIconsOn
-
-
-
-#Configure Windows: Explorer Options
-Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowHiddenFilesFoldersDrives -EnableShowFullPathInTitleBar
-
-#Reset Cache Location
-choco config set cacheLocation "$env:temp\chocolatey"
+Write-Output "Setting choco"
+choco feature enable -n=allowEmptyChecksums
+choco feature enable -n=allowGlobalConfirmation
+cinst chocolatey-windowsupdate.extension
 
   # disabled bing search in start menu
   Write-Output "Disabling Bing Search in start menu"
