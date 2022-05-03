@@ -1,13 +1,13 @@
 <#
 .SYNOPSIS
-  BoxStarter script to configure Windows 10
+  Script to configure Windows 10
 
 .DESCRIPTION
-  Install BoxStarter:
+  Install Developer Tools for DnA:
 
 .NOTES
   Author : Patrick Gallucci
-  Created: 2020-08-12
+  Created: 2022-04-29
 #>
 
 
@@ -173,7 +173,25 @@ cinst powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERS
 #Install PowerShell Get
 Install-Module -Name PowerShellGet -force
 
+#Tools
+choco install office365business -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install onenote -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install dcforoffice -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install onenote-taggingkit-addin.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install onetastic
+choco install sysinternals -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
+choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install camtasia -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install snagit -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install microsoft-teams.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+refreshenv
+
+#Visual Studio
 choco install visualstudio2022enterprise --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 refreshenv
 choco install visualstudio2022-workload-managedgame --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
@@ -193,22 +211,22 @@ choco install visualstudio2022-workload-netweb -y --cacheLocation "$env:UserProf
 choco install visualstudio2022-workload-webbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install ssis-vs2019 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
+
+#Developer Tools
 choco install vscode -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
-choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
+choco install vscode-powershell -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-settingssync -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-jupyter -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-mssql -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-xmltools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install putty.portable -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install putty.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install atom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install unity-docs -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install unity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install unity-standard-assets -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install unity-hub -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install camtasia -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install snagit -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install git -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install git-helper -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install git-credential-manager-for-windows -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
@@ -216,16 +234,18 @@ choco install debugdiagnostic -y --cacheLocation "$env:UserProfile\AppData\Local
 choco install sqlnexus -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 
-#Install SQL 2019
+#Install SQL Tools
 choco install sql-server-2019 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install sql-server-2019-cumulative-update -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install sql-server-management-studio -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 choco install sqltoolbelt -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 choco install azure-data-studio -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install azure-data-studio-sql-server-admin-pack -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install azuredatastudio-powershell -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install chocolatey-azuredatastudio.extension -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install powerbi -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install powerbi-reportbuilder -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 
 #Install Azure
@@ -244,18 +264,20 @@ choco install azcopy10 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoC
 choco install servicebusexplorer -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 
+git config --global credential.helper wincred
+
+
 #Install NuGet Package Explorer
 cinst nugetpackageexplorer -y
 if (test-path (Join-Path ([Environment]::GetFolderPath("Desktop")) "NugetPackageExplorer.exe.lnk")) {
     Move-Item (Join-Path ([Environment]::GetFolderPath("Desktop")) "NugetPackageExplorer.exe.lnk") (Join-Path ([Environment]::GetEnvironmentVariable("AppData")) "Microsoft\Windows\Start Menu\Programs\NugetPackageExplorer.lnk")
 }
 
-#Install chocolatey GUI
-cinst chocolateygui -y
+#auto upgrade
+choco install choco-upgrade-all-at-startup
 
 Write-Output "Complete"
 
-
 #Check for / install Windows Updates
 Enable-MicrosoftUpdate
-Install-WindowsUpdate -acceptEula -GetUpdatesFromMS
+Install-WindowsUpdate -acceptEula
