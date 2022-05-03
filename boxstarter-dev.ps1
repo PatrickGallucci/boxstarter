@@ -10,6 +10,9 @@
   Created: 2020-08-12
 #>
 
+
+CINST Boxstarter
+
 # Boxstarter Options
 Write-Output "Setting Boxstarter variables"
 mkdir c:\temp -Confirm:0 -ErrorAction Ignore
@@ -171,34 +174,31 @@ cinst powershell-core --install-arguments='"ADD_EXPLORER_CONTEXT_MENU_OPENPOWERS
 Install-Module -Name PowerShellGet -force
 
 choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install visualstudio2019enterprise --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install visualstudio2022enterprise --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 refreshenv
-choco install visualstudio2019-workload-managedgame --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-azurebuildtools --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-azure --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-visualstudioextension -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-visualstudioextensionbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-office -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-azurebuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-manageddesktop -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-manageddesktopbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-datascience -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-data -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-databuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-netweb -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2019-workload-webbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-managedgame --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-azurebuildtools --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-azure --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-visualstudioextension -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-visualstudioextensionbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-office -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-azurebuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-manageddesktop -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-manageddesktopbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-datascience -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-data -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-databuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-netweb -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-webbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install ssis-vs2019 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 choco install vscode -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 refreshenv
 choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install office365proplus -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
 choco install python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install itunes -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install microsoft-teams.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install putty.portable -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install atom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
@@ -207,21 +207,13 @@ choco install unity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCach
 choco install unity-standard-assets -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install unity-hub -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install 4k-video-downloader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install camtasia -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install snagit -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install steam -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install git -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install git-helper -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install git-credential-manager-for-windows -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install debugdiagnostic -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install sqlnexus -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-refreshenv
-
-$computername = "win10-dev"
-if ($env:computername -ne $computername) {
-	Rename-Computer -NewName $computername
-}
 refreshenv
 
 #Install SQL 2019
