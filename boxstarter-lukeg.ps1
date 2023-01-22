@@ -24,9 +24,6 @@ $Boxstarter.AutoLogin = $true
 # No confirmation i.e. --yes
 choco feature enable --name=allowGlobalConfirmation
 
-# Allow execution of powershell scripts
-Update-ExecutionPolicy Unrestricted
-
 # Disable Microsoft and Windows update
 Disable-MicrosoftUpdate
 
