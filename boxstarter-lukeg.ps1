@@ -29,20 +29,12 @@ Update-ExecutionPolicy Unrestricted
 
 # Disable Microsoft and Windows update
 Disable-MicrosoftUpdate
-Write-Output "Setting ExecutionPolicy" -ForegroundColor "Yellow"
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force -Verbose
 
 #Trust PSGallery
 Write-Output "Setting PSGallery & NuGet" -ForegroundColor "Yellow"
 Get-PackageProvider -Name NuGet -ForceBootstrap
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 Install-Module -Name PowerShellGet -force
-
-## Install Chocolatey
-Write-Output "Setting Chocolatey" -ForegroundColor "Yellow"
-choco feature enable -n=allowEmptyChecksums
-choco feature enable -n=allowGlobalConfirmation
-cinst chocolatey-windowsupdate.extension
 
 ## Rename Windows
 Write-Output "Rename Computer.." -ForegroundColor "Yellow"
