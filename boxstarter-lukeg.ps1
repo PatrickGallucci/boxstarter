@@ -28,13 +28,11 @@ choco feature enable --name=allowGlobalConfirmation
 Disable-MicrosoftUpdate
 
 #Trust PSGallery
-Write-Output "Setting PSGallery & NuGet" -ForegroundColor "Yellow"
 Get-PackageProvider -Name NuGet -ForceBootstrap
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 Install-Module -Name PowerShellGet -force
 
 ## Rename Windows
-Write-Output "Rename Computer.." -ForegroundColor "Yellow"
 $computername = "LUKEG-DEV"
 
 # Requires restart, or add the -Restart flag
@@ -55,8 +53,6 @@ Set-StartScreenOptions -EnableBootToDesktop
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLUA -Value 0 -Force
 Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
-ForceRegKey "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
 #--- Configuring Windows properties ---
 #--- Windows Features ---
 # Show hidden files, Show protected OS files, Show file extensions
