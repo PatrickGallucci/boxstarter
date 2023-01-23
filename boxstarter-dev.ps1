@@ -54,7 +54,7 @@ choco install onenote-taggingkit-addin.install -y --cacheLocation "$env:UserProf
 choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
 choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install snagit-2020 --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install snagit --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install camtasia -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install kindle -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install audacity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
@@ -173,7 +173,7 @@ choco install wsl -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
 if (Test-PendingReboot) { Invoke-Reboot }
 
-choco install wsl-ubuntu-2204 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+## choco install wsl-ubuntu-2204 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 
 ## Testing for Reboot
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
