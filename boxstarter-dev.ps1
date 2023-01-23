@@ -85,7 +85,6 @@ choco install visualstudio2022-workload-data -y --cacheLocation "$env:UserProfil
 choco install visualstudio2022-workload-databuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install visualstudio2022-workload-netweb -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install visualstudio2022-workload-webbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install ssis-vs2019 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 
 ## Testing for Reboot
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
