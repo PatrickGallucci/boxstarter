@@ -223,7 +223,7 @@ choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\Ch
 choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install snagit -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install snagit-2020 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install origin -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install putty -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install pycharm-community -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
