@@ -46,10 +46,7 @@ if (Test-PendingReboot) { Invoke-Reboot }
 
 # Tools
 Write-Host "Installing Tools..." -ForegroundColor "Yellow"
-choco install office365business -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install onenote -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install onenote-taggingkit-addin.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
 choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
 choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
