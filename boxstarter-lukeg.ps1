@@ -37,64 +37,120 @@ $computername = "LUKEG-DEV"
 
 # Requires restart, or add the -Restart flag
 if ($env:computername -ne $computername) {
-	#Rename-Computer -NewName $computername
+	Rename-Computer -NewName $computername
 }
 
 ## Testing for Reboot
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
 if (Test-PendingReboot) { Invoke-Reboot }
 
-## Configure Windows
-Write-Output "Configure Windows..." -ForegroundColor "Yellow"
-# Turn off screensaver
-Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name ScreenSaveActive -Value 0
-Set-StartScreenOptions -EnableBootToDesktop
-# Disable UAC popups
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLUA -Value 0 -Force
-Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
-#--- Configuring Windows properties ---
-#--- Windows Features ---
-# Show hidden files, Show protected OS files, Show file extensions
-Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions
-#--- File Explorer Settings ---
-# will expand explorer to the actual folder you're in
-Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name NavPaneExpandToCurrentFolder -Value 1
-#adds things back in your left pane like recycle bin
-Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name NavPaneShowAllFolders -Value 1
-#opens PC to This PC, not quick access
-Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name LaunchTo -Value 1
-#taskbar where window is open for multi-monitor
-Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name MMTaskbarMode -Value 2
-#Disable Cortana and web search 
-Write-Output "Disable Cortana and web search" -ForegroundColor "Yellow"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowSearchToUseLocation" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchPrivacy" -Type DWORD -Value 3 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWebOverMeteredConnections" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWORD -Value 1 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Experience\AllowCortana" -Name "value" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaEnabled" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaEnabled" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CanCortanaBeEnabled" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "DeviceHistoryEnabled" -Type DWORD -Value 0 -Force 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "HistoryViewEnabled" -Type DWORD -Value 0 -Force 
-##Disable GameBarTips
-Disable-GameBarTips
-#Disable Windows Consumer Features 
-Write-Output "Disable Windows Consumer Features" -ForegroundColor "Yellow"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWORD -Value 0 -Force
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWORD -Value 1 -Force
-# Hide Search button / box
-Write-Output "Hide Search Button" -ForegroundColor "Yellow"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+# Tools
+Write-Host "Installing Tools..." -ForegroundColor "Yellow"
+choco install office365business -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install onenote -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install onenote-taggingkit-addin.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
+choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install snagit-2020 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install origin -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install putty -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install pycharm-community -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install r -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install razer-synapse-3 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install r.studio -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install rtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+choco install kindle -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install audacity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install discord -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install gimp -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install github-desktop -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install lyx -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install miktex -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install multipass -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install notion -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install nzxt-cam -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install virtualbox -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
 
 ## Testing for Reboot
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
 if (Test-PendingReboot) { Invoke-Reboot }
+
+#Visual Studio
+Write-Host "Installing Visual Studio..." -ForegroundColor "Yellow"
+choco install visualstudio2022enterprise --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
+choco install visualstudio2022-workload-managedgame --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-azurebuildtools --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-azure --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-visualstudioextension -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-visualstudioextensionbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-office -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-azurebuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-manageddesktop -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-manageddesktopbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-datascience -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-data -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-databuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-netweb -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install visualstudio2022-workload-webbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
+#Developer Tools
+Write-Host "Installing Developer Tools..." -ForegroundColor "Yellow"
+choco install vscode -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
+choco install vscode-powershell -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-settingssync -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-jupyter -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-mssql -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install vscode-xmltools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install putty.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install atom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity-docs -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity-standard-assets -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install unity-hub -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install git -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install git-helper -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+choco install git-credential-manager-for-windows -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
+#Ubuntu
+Write-Host "Installing Ubuntu..." -ForegroundColor "Yellow"
+choco install wsl -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
+choco install wsl-ubuntu-2204 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
+#auto upgrade
+choco install choco-upgrade-all-at-startup
 
 #--- Uninstall unnecessary applications that come with Windows out of the box ---
 Write-Host "Uninstall some applications that come with Windows out of the box" -ForegroundColor "Yellow"
@@ -162,6 +218,55 @@ foreach ($app in $applicationList) {
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
 if (Test-PendingReboot) { Invoke-Reboot }
 
+## Configure Windows
+Write-Output "Configure Windows..." -ForegroundColor "Yellow"
+# Turn off screensaver
+Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name ScreenSaveActive -Value 0
+Set-StartScreenOptions -EnableBootToDesktop
+# Disable UAC popups
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLUA -Value 0 -Force
+Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+#--- Configuring Windows properties ---
+#--- Windows Features ---
+# Show hidden files, Show protected OS files, Show file extensions
+Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions
+#--- File Explorer Settings ---
+# will expand explorer to the actual folder you're in
+Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name NavPaneExpandToCurrentFolder -Value 1
+#adds things back in your left pane like recycle bin
+Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name NavPaneShowAllFolders -Value 1
+#opens PC to This PC, not quick access
+Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name LaunchTo -Value 1
+#taskbar where window is open for multi-monitor
+Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name MMTaskbarMode -Value 2
+#Disable Cortana and web search 
+Write-Output "Disable Cortana and web search" -ForegroundColor "Yellow"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowSearchToUseLocation" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchPrivacy" -Type DWORD -Value 3 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWebOverMeteredConnections" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWORD -Value 1 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Experience\AllowCortana" -Name "value" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaEnabled" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaEnabled" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CanCortanaBeEnabled" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "DeviceHistoryEnabled" -Type DWORD -Value 0 -Force 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "HistoryViewEnabled" -Type DWORD -Value 0 -Force 
+##Disable GameBarTips
+Disable-GameBarTips
+#Disable Windows Consumer Features 
+Write-Output "Disable Windows Consumer Features" -ForegroundColor "Yellow"
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWORD -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWORD -Value 1 -Force
+
+## Testing for Reboot
+Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
+if (Test-PendingReboot) { Invoke-Reboot }
+
 # Power Options - disable hibernation and disable monitor standby
 Write-Host "Configuring power options..." -ForegroundColor "Yellow"
 $highPerfGuid = (powercfg -l | ? {$_.Contains("Balanced")}).Split(":")[1].Trim().Split(' ')[0];
@@ -211,116 +316,6 @@ powercfg -setacvalueindex $newGuid $SubGroup_Display $pwr_DimmedDisplayBrightnes
 ## Testing for Reboot
 Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
 if (Test-PendingReboot) { Invoke-Reboot }
-
-# Tools
-Write-Host "Installing Tools..." -ForegroundColor "Yellow"
-choco install office365business -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install onenote -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install googlechrome -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install onenote-taggingkit-addin.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install adobereader -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install 7zip.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"   
-choco install filezilla -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install paint.net -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install zoom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install snagit-2020 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install origin -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install putty -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install pycharm-community -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install r -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install razer-synapse-3 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install r.studio -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install rtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-choco install kindle -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install audacity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install discord -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install gimp -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install github-desktop -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install lyx -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install miktex -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install multipass -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install notion -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install nzxt-cam -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install virtualbox -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-#Visual Studio
-Write-Host "Installing Visual Studio..." -ForegroundColor "Yellow"
-choco install visualstudio2022enterprise --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache"
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-choco install visualstudio2022-workload-managedgame --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-azurebuildtools --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-azure --All -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-visualstudioextension -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-visualstudioextensionbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-office -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-azurebuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-manageddesktop -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-manageddesktopbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-datascience -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-data -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-databuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-netweb -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install visualstudio2022-workload-webbuildtools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install ssis-vs2019 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-#Developer Tools
-Write-Host "Installing Developer Tools..." -ForegroundColor "Yellow"
-choco install vscode -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-choco install vscode-powershell -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install vscode-settingssync -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install vscode-jupyter -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install vscode-mssql -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install vscode-xmltools -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install python -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install putty.install -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install atom -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install unity-docs -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install unity -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install unity-standard-assets -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install unity-hub -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install git -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install git-helper -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install git-credential-manager-for-windows -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-choco install debugdiagnostic -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-#Ubuntu
-Write-Host "Installing Ubuntu..." -ForegroundColor "Yellow"
-choco install wsl -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-choco install wsl-ubuntu-2204 -y --cacheLocation "$env:UserProfile\AppData\Local\ChocoCache" 
-
-## Testing for Reboot
-Write-Output "Testing for Reboot..." -ForegroundColor "Blue"
-if (Test-PendingReboot) { Invoke-Reboot }
-
-#auto upgrade
-choco install choco-upgrade-all-at-startup
 
 Write-Output "Complete"
 
