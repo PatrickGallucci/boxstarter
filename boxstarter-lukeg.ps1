@@ -164,11 +164,12 @@ if (Test-PendingReboot) { Invoke-Reboot }
 
 # Power Options - disable hibernation and disable monitor standby
 Write-Host "Configuring power options..." -ForegroundColor "Yellow"
-$highPerfGuid = (powercfg -l | ? {$_.Contains("High performance")}).Split(":")[1].Trim().Split(' ')[0];
+$highPerfGuid = (powercfg -l | ? {$_.Contains("Balanced")}).Split(":")[1].Trim().Split(' ')[0];
+Write-Host $highPerfGuid -ForegroundColor "Yellow"
 $newGuid = [System.Guid]::NewGuid()
 
 powercfg -duplicatescheme $highPerfGuid $newGuid | Out-Null
-powercfg -changename $newGuid "CrazyDave's Power Scheme"
+powercfg -changename $newGuid "Gallucci Power Scheme"
 
 powercfg -setactive $newGuid
 powercfg -X monitor-timeout-ac 0
